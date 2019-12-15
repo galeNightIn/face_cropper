@@ -31,7 +31,7 @@ class FaceExtractor:
         self._source_dir = source_dir or current_dir
         self._target_dir = target_dir or current_dir
 
-    def detect_face_opencv_dnn(self, frame) -> Optional[object]:
+    def detect_face_opencv_dnn(self, frame, rectangle=False) -> Optional[object]:
         frame_dnn = frame.copy()
         frame_height = frame_dnn.shape[0]
         frame_width = frame_dnn.shape[1]
@@ -54,13 +54,15 @@ class FaceExtractor:
                 x2 = int(detections[0, 0, i, 5] * frame_width)
                 y2 = int(detections[0, 0, i, 6] * frame_height)
 
-                rec_size = int(round(frame_height / 300))
-                rec_color = (0, 255, 0)
+                rec_size = 0
+                if rectangle:
+                    rec_color = (0, 255, 0)
+                    rec_size = int(round(frame_height / 300))
+                    cv2.rectangle(frame_dnn, (x1, y1), (x2, y2), rec_color, rec_size)
 
-                cv2.rectangle(frame_dnn, (x1, y1), (x2, y2), rec_color, rec_size, 8)
                 cropped_img = frame_dnn[y1 + rec_size:y2 - rec_size, x1 + rec_size:x2 - rec_size]
 
-        return cropped_img
+        return frame_dnn, cropped_img
 
     @staticmethod
     def save_frame(frame, file_name: str):
@@ -74,7 +76,8 @@ class FaceExtractor:
             if not hasFrame:
                 break
 
-            cropped_frame = self.detect_face_opencv_dnn(frame)
+            rec_frame, cropped_frame = self.detect_face_opencv_dnn(frame)
+
             if cropped_frame:
                 file_name = PurePath(file_path).name
                 self.save_frame(cropped_frame, file_name)
@@ -82,7 +85,7 @@ class FaceExtractor:
     def save_faces_from_picture(self, file_path: str):
         frame = cv2.imread(file_path)
 
-        cropped_frame = self.detect_face_opencv_dnn(frame)
+        rec_frame, cropped_frame = self.detect_face_opencv_dnn(frame)
         if cropped_frame:
             file_name = PurePath(file_path).name
             self.save_frame(cropped_frame, file_name)
