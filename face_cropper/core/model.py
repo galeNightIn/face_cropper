@@ -4,14 +4,12 @@ from pathlib import Path
 
 import cv2
 
-__all__ = ['NetModel']
-
 logger = logging.getLogger(__file__)
 
-PATH_DIR = Path('.')
+PATH_DIR = Path(__file__)
 logger.info(f'Path dir {PATH_DIR!r}')
 
-PATH_DIR_PARENT = str(PATH_DIR.parent)
+PATH_DIR_PARENT = str(PATH_DIR.parent.parent)
 logger.info(f'Path dir parent {PATH_DIR_PARENT!r}')
 
 
