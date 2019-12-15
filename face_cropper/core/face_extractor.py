@@ -10,8 +10,6 @@ from face_cropper.core.model import NetModel
 
 logger = logging.getLogger(__name__)
 
-__all__ = ['FaceExtractor']
-
 
 class FaceExtractor:
 
@@ -81,6 +79,10 @@ class FaceExtractor:
 
     def save_faces_from_video(self, file_path: str):
         cap = cv2.VideoCapture(file_path)
+        frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+        logger.info(f'Frame count: {frame_count} File: {file_path}')
+
         count = 0
         while True:
             has_frame, frame = cap.read()
@@ -96,7 +98,7 @@ class FaceExtractor:
 
             if self._skip_every_n_frame:
                 count += self._skip_every_n_frame
-                cap.set(1, count)
+                cap.set(cv2.CAP_PROP_POS_FRAMES, count)
 
         cap.release()
         cv2.destroyAllWindows()
