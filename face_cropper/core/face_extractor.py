@@ -79,7 +79,7 @@ class FaceExtractor:
 
             rec_frame, cropped_frame = self.detect_face_opencv_dnn(frame)
 
-            if cropped_frame:
+            if cropped_frame is not None:
                 file_name = PurePath(file_path).name
                 self.save_frame(cropped_frame, file_name)
 
