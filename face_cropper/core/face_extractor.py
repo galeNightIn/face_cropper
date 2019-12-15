@@ -6,7 +6,7 @@ from typing import Optional
 
 import cv2
 
-from core.model import NetModel
+from face_cropper.core.model import NetModel
 
 logger = logging.getLogger(__name__)
 
