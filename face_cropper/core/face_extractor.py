@@ -81,7 +81,7 @@ class FaceExtractor:
         cap = cv2.VideoCapture(file_path)
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
-        logger.info(f'Frame count: {frame_count} File: {file_path}')
+        logger.warning(f'Frame count: {frame_count} File: {file_path}')
 
         count = 0
         while True:
@@ -97,6 +97,9 @@ class FaceExtractor:
 
             if self._skip_every_n_frame:
                 count += self._skip_every_n_frame
+                if count >= frame_count:
+                    logger.warning('Out of frames')
+                    break
                 cap.set(cv2.CAP_PROP_POS_FRAMES, count)
 
         cap.release()
