@@ -3,9 +3,9 @@ import os
 import uuid
 from pathlib import PurePath
 from typing import Optional
-
 import cv2
 
+from face_cropper import walk_through_files
 from face_cropper.core.model import NetModel
 
 logger = logging.getLogger(__name__)
@@ -14,6 +14,10 @@ __all__ = ['FaceExtractor']
 
 
 class FaceExtractor:
+
+    VIDEO_EXTENTIONS = ('.mp4',)
+    IMAGE_EXTENTIONS = ('.PNG', '.png', '.JPG', '.jpg')
+
     def __init__(
         self,
         net_model: 'NetModel',
@@ -64,10 +68,9 @@ class FaceExtractor:
 
         return frame_dnn, cropped_img
 
-    @staticmethod
-    def save_frame(frame, file_name: str):
+    def save_frame(self, frame, file_name: str):
         """ Saves to target_dir/file_name.jpg"""
-        cv2.imwrite(f'{file_name}-{uuid.uuid4()}.jpg', frame)
+        cv2.imwrite(f'{self._target_dir}/{file_name}-{uuid.uuid4()}.jpg', frame)
 
     def save_faces_from_video(self, file_path: str):
         cap = cv2.VideoCapture(file_path)
@@ -89,3 +92,12 @@ class FaceExtractor:
         if cropped_frame:
             file_name = PurePath(file_path).name
             self.save_frame(cropped_frame, file_name)
+
+    def run(self):
+        for file_path in walk_through_files(self._source_dir):
+            if file_path.endswith(self.VIDEO_EXTENTIONS):
+                self.save_faces_from_video(file_path)
+            elif file_path.endswith(self.IMAGE_EXTENTIONS):
+                self.save_faces_from_picture(file_path)
+            else:
+                logger.warning(f'Unknown format file {file_path}')
