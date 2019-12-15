@@ -68,7 +68,7 @@ class FaceExtractor:
 
     def save_frame(self, frame, file_name: str):
         """ Saves to target_dir/file_name.jpg"""
-        cv2.imwrite(f'{self._target_dir}/{file_name}-{uuid.uuid4()}.jpg', frame)
+        cv2.SaveImage(f'{self._target_dir}/{file_name}-{uuid.uuid4()}.jpg', frame)
 
     def save_faces_from_video(self, file_path: str):
         cap = cv2.VideoCapture(file_path)
