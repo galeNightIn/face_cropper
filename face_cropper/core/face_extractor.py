@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class FaceExtractor:
 
-    VIDEO_EXTENTIONS = ('.mp4', '.MP4')
+    VIDEO_EXTENTIONS = ('.mp4', '.MP4', '.mpg')
     IMAGE_EXTENTIONS = ('.PNG', '.png', '.JPG', '.jpg')
 
     def __init__(
