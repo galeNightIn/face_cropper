@@ -83,13 +83,14 @@ class FaceExtractor:
         cap = cv2.VideoCapture(file_path)
         count = 0
         while True:
-            hasFrame, frame = cap.read()
-            if not hasFrame:
+            has_frame, frame = cap.read()
+            if not has_frame:
                 break
 
             rec_frame, cropped_frame = self.detect_face_opencv_dnn(frame)
 
             if cropped_frame is not None:
+                logger.info("New detected face ...")
                 file_name = PurePath(file_path).name
                 self.save_frame(cropped_frame, file_name)
 
