@@ -72,7 +72,10 @@ class FaceExtractor:
 
     def save_frame(self, frame, file_name: str):
         """ Saves to target_dir/file_name.jpg"""
-        cv2.imwrite(f'{self._target_dir}/{file_name}-{uuid.uuid4()}.jpg', frame)
+        try:
+            cv2.imwrite(f'{self._target_dir}/{file_name}-{uuid.uuid4()}.jpg', frame)
+        except Exception as e:
+            logger.warning(f'{file_name}-error: {e!r}')
 
     def save_faces_from_video(self, file_path: str):
         cap = cv2.VideoCapture(file_path)
