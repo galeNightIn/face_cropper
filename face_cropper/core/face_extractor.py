@@ -98,7 +98,7 @@ class FaceExtractor:
             if self._skip_every_n_frame:
                 count += self._skip_every_n_frame
                 if count >= frame_count:
-                    logger.warning('Out of frames')
+                    logger.warning(f'Out of frames {frame_count} < {count}')
                     break
                 cap.set(cv2.CAP_PROP_POS_FRAMES, count)
 

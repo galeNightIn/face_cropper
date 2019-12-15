@@ -20,7 +20,8 @@ face_extractor = FaceExtractor(
     target_dir='prepared_data/1',
     from_pictures=True,
     from_video=True,
-    conf_threshold=0.8
+    conf_threshold=0.8,
+    skip_every_n_frame=10
 )
 face_extractor.run()
 
