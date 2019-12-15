@@ -39,7 +39,7 @@ class FaceExtractor:
         self._source_dir = source_dir or current_dir
         self._target_dir = target_dir or current_dir
 
-    def detect_face_opencv_dnn(self, frame, rectangle=False) -> Optional[object]:
+    def detect_face_opencv_dnn(self, frame) -> Optional[object]:
         frame_dnn = frame.copy()
         frame_height = frame_dnn.shape[0]
         frame_width = frame_dnn.shape[1]
@@ -92,7 +92,6 @@ class FaceExtractor:
             rec_frame, cropped_frame = self.detect_face_opencv_dnn(frame)
 
             if cropped_frame is not None:
-                logger.info("New detected face ...")
                 file_name = PurePath(file_path).name
                 self.save_frame(cropped_frame, file_name)
 
