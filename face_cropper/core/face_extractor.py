@@ -20,7 +20,7 @@ class FaceExtractor:
 
     def __init__(
         self,
-        net_model: 'NetModel',
+        net_model: 'NetModel' = NetModel(),
         source_dir: Optional[str] = None,
         target_dir: Optional[str] = None,
         conf_threshold: float = 0.7
