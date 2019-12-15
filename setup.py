@@ -22,6 +22,7 @@ setup(
     name='face_cropper',
     version=get_version(),
     packages=find_packages(),
+    package_data={'face_cropper': ['*.caffemodel', '*.pb', '*.pbtxt', '*.prototxt']},
     url='https://github.com/galeNightIn/face_cropper',
     description='Face cropper module',
     long_description=readme(),

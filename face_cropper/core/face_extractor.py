@@ -5,7 +5,7 @@ from pathlib import PurePath
 from typing import Optional
 import cv2
 
-from face_cropper import walk_through_files
+from face_cropper.utils.utils import walk_through_files
 from face_cropper.core.model import NetModel
 
 logger = logging.getLogger(__name__)
