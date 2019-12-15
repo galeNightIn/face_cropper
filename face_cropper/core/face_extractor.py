@@ -82,6 +82,7 @@ class FaceExtractor:
             if cropped_frame is not None:
                 file_name = PurePath(file_path).name
                 self.save_frame(cropped_frame, file_name)
+        cv2.destroyAllWindows()
 
     def save_faces_from_picture(self, file_path: str):
         frame = cv2.imread(file_path)
