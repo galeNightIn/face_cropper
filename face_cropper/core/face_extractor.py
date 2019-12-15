@@ -15,7 +15,7 @@ __all__ = ['FaceExtractor']
 
 class FaceExtractor:
 
-    VIDEO_EXTENTIONS = ('.mp4',)
+    VIDEO_EXTENTIONS = ('.mp4', '.MP4')
     IMAGE_EXTENTIONS = ('.PNG', '.png', '.JPG', '.jpg')
 
     def __init__(
@@ -58,11 +58,9 @@ class FaceExtractor:
                 x2 = int(detections[0, 0, i, 5] * frame_width)
                 y2 = int(detections[0, 0, i, 6] * frame_height)
 
-                rec_size = 0
-                if rectangle:
-                    rec_color = (0, 255, 0)
-                    rec_size = int(round(frame_height / 300))
-                    cv2.rectangle(frame_dnn, (x1, y1), (x2, y2), rec_color, rec_size)
+                rec_color = (0, 255, 0)
+                rec_size = int(round(frame_height / 300))
+                cv2.rectangle(frame_dnn, (x1, y1), (x2, y2), rec_color, rec_size)
 
                 cropped_img = frame_dnn[y1 + rec_size:y2 - rec_size, x1 + rec_size:x2 - rec_size]
 
