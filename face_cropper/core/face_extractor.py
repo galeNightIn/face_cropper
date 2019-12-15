@@ -26,7 +26,9 @@ class FaceExtractor:
         conf_threshold: float = 0.7,
         from_video=True,
         from_pictures=True,
+        skip_every_n_frame = None
     ):
+        self._skip_every_n_frame = skip_every_n_frame
         self._from_video = from_video
         self._from_pictures = from_pictures
         self._net = net_model.net
@@ -79,6 +81,7 @@ class FaceExtractor:
 
     def save_faces_from_video(self, file_path: str):
         cap = cv2.VideoCapture(file_path)
+        count = 0
         while True:
             hasFrame, frame = cap.read()
             if not hasFrame:
@@ -89,6 +92,11 @@ class FaceExtractor:
             if cropped_frame is not None:
                 file_name = PurePath(file_path).name
                 self.save_frame(cropped_frame, file_name)
+
+            if self._skip_every_n_frame:
+                count += self._skip_every_n_frame
+                cap.set(1, count)
+
         cap.release()
         cv2.destroyAllWindows()
 
