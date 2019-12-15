@@ -23,8 +23,12 @@ class FaceExtractor:
         net_model: 'NetModel' = NetModel(),
         source_dir: Optional[str] = None,
         target_dir: Optional[str] = None,
-        conf_threshold: float = 0.7
+        conf_threshold: float = 0.7,
+        from_video=True,
+        from_pictures=True,
     ):
+        self._from_video = from_video
+        self._from_pictures = from_pictures
         self._net = net_model.net
         self._conf_threshold = conf_threshold
 
@@ -94,9 +98,9 @@ class FaceExtractor:
 
     def run(self):
         for file_path in walk_through_files(self._source_dir):
-            if file_path.endswith(self.VIDEO_EXTENTIONS):
+            if file_path.endswith(self.VIDEO_EXTENTIONS) and self._from_video:
                 self.save_faces_from_video(file_path)
-            elif file_path.endswith(self.IMAGE_EXTENTIONS):
+            elif file_path.endswith(self.IMAGE_EXTENTIONS) and self._from_pictures:
                 self.save_faces_from_picture(file_path)
             else:
                 logger.warning(f'Unknown format file {file_path}')
