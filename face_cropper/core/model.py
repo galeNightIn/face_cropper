@@ -4,6 +4,8 @@ from pathlib import Path
 
 import cv2
 
+__all__ = ['NetModel']
+
 logger = logging.getLogger(__file__)
 
 PATH_DIR = Path(__file__)

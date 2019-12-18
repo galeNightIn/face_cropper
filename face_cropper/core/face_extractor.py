@@ -10,6 +10,8 @@ from face_cropper.core.model import NetModel
 
 logger = logging.getLogger(__name__)
 
+__all__ = ['FaceExtractor']
+
 
 class FaceExtractor:
 
