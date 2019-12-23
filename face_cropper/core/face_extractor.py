@@ -26,13 +26,15 @@ class FaceExtractor:
         conf_threshold: float = 0.7,
         from_video=True,
         from_pictures=True,
-        skip_every_n_frame = None
+        n_frame=None,
+        skip_every_n_frame=None
     ):
         self._skip_every_n_frame = skip_every_n_frame
         self._from_video = from_video
         self._from_pictures = from_pictures
         self._net = net_model.net
         self._conf_threshold = conf_threshold
+        self._n_frame=n_frame
 
         current_dir = os.path.dirname(os.path.realpath(__file__))
         logger.info(f'Current directory {current_dir!r}')
@@ -82,6 +84,8 @@ class FaceExtractor:
     def save_faces_from_video(self, file_path: str):
         cap = cv2.VideoCapture(file_path)
         frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        if self._n_frame:
+            self._skip_every_n_frame = frame_count // self._n_frame
 
         logger.warning(f'Frame count: {frame_count} File: {file_path}')
 
